@@ -1,35 +1,26 @@
+import React, { useState } from "react";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
 
-const GlobalStyle = createGlobalStyle`
-  ${reset}
-  body {  
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-    }
-  /* other styles */
-`;
-
-const Wrapper = styled.div`
-  display: flex;
+const Container = styled.div`
   width: 100vw;
   height: 100vh;
+  display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${(props) => props.theme.backgroundColor};
+  background-color: ${(props) => props.theme.bgColor};
 `;
 
-const Test = styled.span`
+const H1 = styled.h1`
+  font-size: 100px;
+  font-weight: bold;
   color: ${(props) => props.theme.textColor};
-  font-size: 88px;
 `;
 
 function App() {
   return (
-    <Wrapper>
-      <GlobalStyle />
-      <Test>Hello!</Test>
-    </Wrapper>
+    <Container>
+      <H1>Hello!</H1>
+    </Container>
   );
 }
 
