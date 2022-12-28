@@ -19,6 +19,8 @@ const StyledLink = styled(Link)`
   }
 
   transition: all 0.3s ease-in-out;
+  display: block;
+  text-shadow: 1px 1px 1px #000;
 `;
 
 export default (props: any) => <StyledLink {...props} />;

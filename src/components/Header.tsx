@@ -11,7 +11,7 @@ function Header() {
   return (
     <Head>
       <StyledLink to={"/"}>Coins</StyledLink>
-      <StyledLink to={"/coin"}>Coin</StyledLink>
+      <StyledLink to={"/:coinId"}>Coin</StyledLink>
     </Head>
   );
 }
