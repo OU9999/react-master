@@ -43,9 +43,15 @@ function Coin() {
   const [loading, setLoading] = useState(true);
   const loc = useLocation();
   const name: string = loc.state;
+  const [info, setInfo] = useState({});
+  const [priceInfo, setPriceInfo] = useState({});
   const getDetail = async () => {
-    const res = await axios(`https://api.coinpaprika.com/v1/coins/${coinId}`);
-    console.log(res);
+    const infoData = await axios(`coinpaprika/v1/coins/${coinId}`);
+    console.log(infoData);
+    const priceData = await axios(`coinpaprika/v1/tickers/${coinId}`);
+    console.log(priceData);
+    setInfo(infoData);
+    setPriceInfo(priceInfo);
     setLoading(false);
   };
   useEffect(() => {

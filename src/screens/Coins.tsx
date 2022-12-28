@@ -104,7 +104,7 @@ function Coins() {
   const [loading, setLoading] = useState(true);
   const getCoins = async () => {
     const res = await axios.get("coinpaprika/v1/coins");
-    setCoins(res.data.slice(0, 100));
+    setCoins(res.data.slice(0, 5));
     setLoading(false);
   };
   useEffect(() => {
