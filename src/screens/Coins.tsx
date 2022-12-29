@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
+import { fetchCoins } from "../api";
 import StyledLink from "../components/StyledLink";
 
 const Container = styled.div`
@@ -59,7 +61,7 @@ const Loading = styled.div`
   text-align: center;
 `;
 
-interface CoinInterface {
+interface ICoin {
   id: string;
   name: string;
   symbol: string;
@@ -100,26 +102,29 @@ interface CoinInterface {
 // ];
 
 function Coins() {
-  const [coins, setCoins] = useState<CoinInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  const getCoins = async () => {
-    const res = await axios.get("coinpaprika/v1/coins");
-    setCoins(res.data.slice(0, 5));
-    setLoading(false);
-  };
-  useEffect(() => {
-    getCoins();
-  });
+  // const [coins, setCoins] = useState<ICoin[]>([]);
+  // const [loading, setLoading] = useState(true);
+  // const getCoins = async () => {
+  //   const res = await axios.get("coinpaprika/v1/coins");
+  //   setCoins(res.data.slice(0, 5));
+  //   setLoading(false);
+  // };
+  // useEffect(() => {
+  //   getCoins();
+  // });
+
+  const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+
   return (
     <Container>
       <Header>
         <Title>Coins</Title>
       </Header>
       <CoinList>
-        {loading ? (
+        {isLoading ? (
           <Loading>Loading...</Loading>
         ) : (
-          coins.map((coin) => (
+          data?.slice(0, 5).map((coin) => (
             <Coin key={coin.id}>
               <Img
                 src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}

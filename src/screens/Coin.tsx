@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { Outlet, useLocation, useMatch, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { fetchCoinInfo } from "../api";
 import StyledLink from "../components/StyledLink";
 
 const Container = styled.div`
@@ -143,28 +145,40 @@ interface IpriceData {
 }
 
 function Coin() {
+  // const [loading, setLoading] = useState(true);
+  // const [info, setInfo] = useState<IinfoData>();
+  // const [priceInfo, setPriceInfo] = useState<IpriceData>();
+
+  // const getDetail = async () => {
+  //   const infoData = await (
+  //     await fetch(`coinpaprika/v1/coins/${coinId}`)
+  //   ).json();
+  //   const priceData = await (
+  //     await fetch(`coinpaprika/v1/tickers/${coinId}`)
+  //   ).json();
+  //   setInfo(infoData);
+  //   setPriceInfo(priceData);
+  //   setLoading(false);
+  // };
+  // useEffect(() => {
+  //   getDetail();
+  // }, []);
+
   const { coinId } = useParams();
-  const [loading, setLoading] = useState(true);
   const loc = useLocation();
-  const [info, setInfo] = useState<IinfoData>();
-  const [priceInfo, setPriceInfo] = useState<IpriceData>();
   const priceMatch = useMatch(`/${coinId}/price`);
   const chartMatch = useMatch(`/${coinId}/chart`);
+  const { isLoading: infoLoading, data: infoData } = useQuery<IinfoData>(
+    ["info", coinId],
+    () => fetchCoinInfo(`${coinId}`)
+  );
+  const { isLoading: tickerLoading, data: tickerData } = useQuery<IpriceData>(
+    ["ticker", coinId],
+    () => fetchCoinInfo(`${coinId}`)
+  );
 
-  const getDetail = async () => {
-    const infoData = await (
-      await fetch(`coinpaprika/v1/coins/${coinId}`)
-    ).json();
-    const priceData = await (
-      await fetch(`coinpaprika/v1/tickers/${coinId}`)
-    ).json();
-    setInfo(infoData);
-    setPriceInfo(priceData);
-    setLoading(false);
-  };
-  useEffect(() => {
-    getDetail();
-  }, []);
+  const loading = infoLoading || tickerLoading;
+
   return (
     <Container>
       <Header>
@@ -173,7 +187,7 @@ function Coin() {
             ? loc.state.name
             : loading
             ? "Loading..."
-            : info?.name}
+            : infoData?.name}
         </Title>
       </Header>
       {loading ? (
@@ -183,26 +197,26 @@ function Coin() {
           <Overview>
             <OverviewItem>
               <span>Rank:</span>
-              <span>{info?.rank}</span>
+              <span>{infoData?.rank}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Symbol:</span>
-              <span>${info?.symbol}</span>
+              <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Open Source:</span>
-              <span>{info?.open_source ? "Yes" : "No"}</span>
+              <span>{infoData?.open_source ? "Yes" : "No"}</span>
             </OverviewItem>
           </Overview>
-          <Description>{info?.description}</Description>
+          <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
               <span>Total Suply:</span>
-              <span>{priceInfo?.total_supply}</span>
+              <span>{tickerData?.total_supply}</span>
             </OverviewItem>
             <OverviewItem>
               <span>Max Supply:</span>
-              <span>{priceInfo?.max_supply}</span>
+              <span>{tickerData?.max_supply}</span>
             </OverviewItem>
           </Overview>
           <Tabs>

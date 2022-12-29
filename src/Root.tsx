@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 import Header from "./components/Header";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -22,6 +23,7 @@ function Root() {
       <GlobalStyle />
       <Header />
       <Outlet />
+      <ReactQueryDevtools />
     </>
   );
 }
