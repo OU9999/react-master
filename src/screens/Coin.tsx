@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { Outlet, useLocation, useMatch, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoinInfo } from "../api";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import StyledLink from "../components/StyledLink";
+import { Helmet } from "react-helmet";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -174,13 +175,21 @@ function Coin() {
   );
   const { isLoading: tickerLoading, data: tickerData } = useQuery<IpriceData>(
     ["ticker", coinId],
-    () => fetchCoinInfo(`${coinId}`)
+    () => fetchCoinTickers(`${coinId}`)
   );
 
   const loading = infoLoading || tickerLoading;
-
   return (
     <Container>
+      <Helmet>
+        <title>
+          {loc.state?.name
+            ? loc.state.name
+            : loading
+            ? "Loading..."
+            : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         <Title>
           {loc.state?.name
@@ -204,8 +213,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price:</span>
+              <span>${tickerData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -228,7 +237,11 @@ function Coin() {
             </Tab>
           </Tabs>
 
-          <Outlet />
+          <Outlet
+            context={{
+              coinId: coinId,
+            }}
+          />
         </>
       )}
     </Container>
