@@ -1,5 +1,3 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import styled from "styled-components";
@@ -35,10 +33,12 @@ const Coin = styled.li`
   padding-left: 25px;
   align-items: center;
   background-color: gray;
-  color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   border-radius: 20px;
   margin: 10px 0px;
+
   a {
+    text-shadow: 1px 1px 1px ${(props) => props.theme.bgColor};
     padding: 20px;
   }
 `;

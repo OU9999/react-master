@@ -7,11 +7,22 @@ const Head = styled.div`
   align-items: center;
   margin-bottom: 20px;
 `;
-function Header() {
+
+const Button = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+`;
+interface IHeader {
+  toggleDark: () => void;
+}
+function Header({ toggleDark }: IHeader) {
   return (
     <Head>
-      <StyledLink to={"/"}>Coins</StyledLink>
-      <StyledLink to={"/:coinId"}>Coin</StyledLink>
+      <StyledLink to={"/"}>🏠</StyledLink>
+      <Button onClick={toggleDark}>💩</Button>
     </Head>
   );
 }
