@@ -1,4 +1,6 @@
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { isDarkAtom } from "../atoms";
 import StyledLink from "./StyledLink";
 
 const Head = styled.div`
@@ -15,14 +17,13 @@ const Button = styled.button`
   background: none;
   border: none;
 `;
-interface IHeader {
-  toggleDark: () => void;
-}
-function Header({ toggleDark }: IHeader) {
+function Header() {
+  const setterFn = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setterFn((prev) => !prev);
   return (
     <Head>
       <StyledLink to={"/"}>🏠</StyledLink>
-      <Button onClick={toggleDark}>💩</Button>
+      <Button onClick={toggleDarkAtom}>💩</Button>
     </Head>
   );
 }

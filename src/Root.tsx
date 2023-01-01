@@ -4,7 +4,8 @@ import reset from "styled-reset";
 import Header from "./components/Header";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atoms";
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -20,13 +21,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function Root() {
-  const [isDark, setIsDark] = useState(true);
-  const toggleDark = () => setIsDark((current) => !current);
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
-        <Header toggleDark={toggleDark} />
+        <Header />
         <Outlet />
         <ReactQueryDevtools />
       </ThemeProvider>
