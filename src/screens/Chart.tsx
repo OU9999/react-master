@@ -5,11 +5,11 @@ import { useRecoilValue } from "recoil";
 import { fetchCoinHistory } from "../api";
 import { isDarkAtom } from "../atoms";
 
-interface IChart {
+export interface IChart {
   coinId: string;
 }
 
-interface IData {
+export interface IData {
   time_open: number;
   time_close: number;
   open: number;

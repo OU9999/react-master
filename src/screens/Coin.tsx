@@ -110,7 +110,7 @@ interface IinfoData {
   last_data_at: string;
 }
 
-interface IpriceData {
+export interface IpriceData {
   id: string;
   name: string;
   symbol: string;
@@ -235,10 +235,10 @@ function Coin() {
               <StyledLink to={`chart`}>chart</StyledLink>
             </Tab>
           </Tabs>
-
           <Outlet
             context={{
               coinId: coinId,
+              tickerData: tickerData,
             }}
           />
         </>

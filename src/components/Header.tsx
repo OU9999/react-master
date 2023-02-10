@@ -16,14 +16,19 @@ const Button = styled.button`
   align-items: center;
   background: none;
   border: none;
+  font-size: 50px;
+`;
+
+const HomeButton = styled(StyledLink)`
+  font-size: 50px;
 `;
 function Header() {
   const setterFn = useSetRecoilState(isDarkAtom);
   const toggleDarkAtom = () => setterFn((prev) => !prev);
   return (
     <Head>
-      <StyledLink to={"/"}>🏠</StyledLink>
-      <Button onClick={toggleDarkAtom}>💩</Button>
+      <HomeButton to={"/"}>🏠</HomeButton>
+      <Button onClick={toggleDarkAtom}>☀️</Button>
     </Head>
   );
 }
